@@ -1,0 +1,44 @@
+2021-10-18 15:31:37,503 [ERROR] WOW ERROR GEN
+2021-10-18 15:31:37,503 [WARN] Hey this is WARN
+2021-10-18 15:31:37,504 [INFO] Normal info
+2021-10-18 15:31:37,504 [DEBUG] just debug
+2021-10-18 15:32:00,081 [ERROR] WOW ERROR GEN
+2021-10-18 15:32:00,082 [WARN] Hey this is WARN
+2021-10-18 15:32:00,082 [INFO] Normal info
+2021-10-18 15:32:00,082 [DEBUG] just debug
+2021-10-18 15:42:11,824 [ERROR] [Logger.cc:prefix:85]WOW ERROR GEN
+2021-10-18 15:42:11,825 [WARN] [Logger.cc:prefix:85]Hey this is WARN
+2021-10-18 15:42:11,825 [INFO] [Logger.cc:prefix:85]Normal info
+2021-10-18 15:42:11,825 [DEBUG] [Logger.cc:prefix:85]just debug
+2021-10-18 15:46:22,545 [ERROR] [Logger.cc:main:89]WOW ERROR GEN
+2021-10-18 15:46:22,546 [WARN] [Logger.cc:main:90]Hey this is WARN
+2021-10-18 15:46:22,546 [INFO] [Logger.cc:main:91]Normal info
+2021-10-18 15:46:22,546 [DEBUG] [Logger.cc:main:92]just debug
+2021-10-18 15:52:13,954 [ERROR] [Logger.cc: main: 90] WOW ERROR GEN
+2021-10-18 15:52:13,954 [WARN] [Logger.cc: main: 91] Hey this is WARN
+2021-10-18 15:52:13,954 [INFO] [Logger.cc: main: 92] Normal info
+2021-10-18 15:52:13,955 [DEBUG] [Logger.cc: main: 93] just debug
+2021-10-22 22:43:31,541 [ERROR] [LoggerArgs.cc: test0: 101] WOW ERROR GEN
+2021-10-22 22:43:31,541 [WARN] [LoggerArgs.cc: test0: 102] Hey this is WARN
+2021-10-22 22:43:31,541 [INFO] [LoggerArgs.cc: test0: 103] Normal info
+2021-10-22 22:43:31,541 [DEBUG] [LoggerArgs.cc: test0: 104] just debug
+2021-10-22 22:49:30,294 [ERROR] This is a error msg, args = 10
+2021-10-22 22:52:15,398 [ERROR] [LoggerArgs.cc: test1: 111] Wow, Hello, error msg
+2021-10-23 11:37:57,912 [ERROR] [LoggerArgs.cc: test1: 113] Wow, Hello, error msg
+2021-10-23 11:37:57,925 [INFO] [LoggerArgs.cc: test1: 114] Hi Info
+2021-10-23 11:51:38,891 [ERROR] [LoggerArgs.cc: test3: 127] Wow, Hello, error msg, args = 3.141593
+2021-10-23 11:51:38,892 [INFO] [LoggerArgs.cc: test3: 128] Hi Info,  3.14
+2021-10-23 11:57:06,587 [ERROR] [LoggerArgs.cc: test3: 127] Wow, Hello, error msg, args = 3.141593
+2021-10-23 11:57:06,587 [INFO] [LoggerArgs.cc: test3: 128] Hi Info,  3.14
+2021-10-23 11:59:09,153 [ERROR] [LoggerArgs.cc: test3: 128] Wow, Hello, error msg, args = 3.141593
+2021-10-23 11:59:09,153 [INFO] [LoggerArgs.cc: test3: 129] Hi Info,  3.14
+2021-10-23 12:00:07,573 [ERROR] [LoggerArgs.cc: test3: 128] Wow, Hello, error msg, args = 3.141593
+2021-10-23 12:00:07,573 [INFO] [LoggerArgs.cc: test3: 129] Hi Info,  3.14
+2021-10-23 12:02:50,843 [ERROR] [LoggerArgs.cc: test3: 129] Wow, Hello, error msg, args = 3.141593
+2021-10-23 12:02:50,844 [INFO] [LoggerArgs.cc: test3: 130] Hi Info,  3.14
+2021-10-23 12:02:57,452 [ERROR] [LoggerArgs.cc: test3: 129] Wow, Hello, error msg, args = 3.141593
+2021-10-23 12:02:57,452 [INFO] [LoggerArgs.cc: test3: 130] Hi Info,  3.14
+2021-10-23 12:03:46,157 [ERROR] {LoggerArgs.cc: test3: 129} Wow, Hello, error msg, args = 3.141593
+2021-10-23 12:03:46,158 [INFO] {LoggerArgs.cc: test3: 130} Hi Info,  3.14
+10-23 12:04 [ERROR] {LoggerArgs.cc: test3: 129} Wow, Hello, error msg, args = 3.141593
+10-23 12:04 [INFO ] {LoggerArgs.cc: test3: 130} Hi Info,  3.14
