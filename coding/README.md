@@ -54,5 +54,19 @@
 
    适用场景：针对复杂对象，批量创建对象。
 
+   ![FactoryMethod.jpg](https://gitee.com/snow-tyan/learn-cpp/raw/master/Figure/FactoryMethod.jpg)
 
-   ![d](/home/leaky/wangziyue/gitee/learn-cpp/Figure/FactoryMethod.jpg)
+
+3. 抽象工厂
+
+   一个工厂可以生产多种系列产品，FigureA, FigureB...
+
+   ![](https://gitee.com/snow-tyan/learn-cpp/raw/master/Figure/AbstractFactory.jpg)
+
+#### 观察者模式
+
+>  对象间的一种一对多依赖关系，当一个对象的状态发生改变时，所有**依赖于**它的对象都得到通知并自动更新，又称发布-订阅模式。
+>
+>  婴儿和护士是观察者，门铃是主题，客人按下门铃，门铃状态发生改变，观察者婴儿和护士跟着做处理操作。这里的操作是婴儿哭(30%)或继续睡(70%)，护士起床开门(70%)或继续睡(30%)。
+
+![](https://gitee.com/snow-tyan/learn-cpp/raw/master/Figure/Observer.jpg)
