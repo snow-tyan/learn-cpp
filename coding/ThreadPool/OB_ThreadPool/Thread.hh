@@ -1,20 +1,15 @@
 #pragma once
-#include "NonCopyable.hh"
 #include <pthread.h>
 #include <functional>
 
 namespace wd
 {
-
+    using ThreadCallback = std::function<void()>;
     class Thread
-        : public Noncopyable
     {
-        using ThreadCallback = std::function<void()>;
-
     public:
-        Thread(ThreadCallback &&cb)
-            : _pthid(0), _isRunning(false), _cb(std::move(cb)) {}
-        ~Thread() {}
+        Thread(ThreadCallback &&);
+        ~Thread();
         void start();
         void join();
         static void *threadFunc(void *); // 干掉this指针
