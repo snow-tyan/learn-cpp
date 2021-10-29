@@ -21,5 +21,40 @@ Linux下POSIX线程库
 > Thread类通过传回调函数**构造类**。注册回调函数function+bind  
 > 同样threadFunc中需要一个对象指针调用传过来的回调函数
 
-![](https://gitee.com/snow-tyan/learn-cpp/raw/master/Figure/OB_Thread.png)
+![](https://gitee.com/snow-tyan/learn-cpp/raw/master/Figure/OB_Thread.jpg)
 
+
+### 线程局部存储
+> TLS Thread Local Storage
+
+`__thread`变量：GCC内置的TLS设施，存取效率可以和全局变量相比。TLS中的变量一直存在，直到线程终止，届时自动释放这一变量。例如`errno`定义：`static __thread int value = 0;`
+
+线程特有数据：POSIX thread使用`pthread_getspecific`和`pthread_setspecific`设置线程特有数据，但使用起来较为繁琐，且编译加-pthread。这里不作讨论。
+
+封装线程时，使用`pthread_self()`获取线程ID，不太直观。  
+现在有个需求就是给线程创建一个名字，并且想在线程内部调用这个名字  
+ ---> 不能只在Thread构造时赋值，必须在`threadFunc`内部调用`name`，通过传参  
+
+封成一个类
+```c++
+struct ThreadData
+{
+    ThreadData(string name, ThreadCallback &&cb)
+        : _name(name), _cb(cb) {}
+    void runInThread()
+    {
+        // 任务执行前
+        current_thread::threadName =
+            _name != string() ? _name.c_str() : "AnonymousThread";
+        // 执行任务
+        if (_cb)
+            _cb();
+        // 任务执行后
+    }
+    string _name;
+    ThreadCallback _cb;
+};
+```
+
+ #### 用途
+ 给线程传参，不仅仅是名字
