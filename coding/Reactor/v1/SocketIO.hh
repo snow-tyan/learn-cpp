@@ -1,20 +1,18 @@
 #pragma once
 
-#include "Socket.hh"
-
 namespace wd
 {
 
 class SocketIO
 {
 public:
-    SocketIO(int);                 // fd
+    explicit SocketIO(int);        // fd
     int readn(char *, int);        // buf, len
-    int readLine(char *, int);     // buf, maxLen
+    int readLine(char *, int);     // buf, maxLen 一行最大长度
     int writen(const char *, int); // buf, len
 
 private:
-    Socket _sock;
+    int _fd;
 };
 
 } // end of namespace wd

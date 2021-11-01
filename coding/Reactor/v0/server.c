@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
     bzero(&serverAddr, sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons((short)atoi("8888"));       // port 主机字节序转网络字节序
-    serverAddr.sin_addr.s_addr = inet_addr("10.34.37.212"); // ip 点分十进制转网络字节序
+    serverAddr.sin_addr.s_addr = inet_addr("172.25.40.81"); // ip 点分十进制转网络字节序
 
     int ret = bind(socketFd, (struct sockaddr *)&serverAddr, sizeof(struct sockaddr));
     ERROR_CHECK(ret, -1, "bind");
