@@ -3,9 +3,9 @@
 int main(int argc, char **argv)
 {
     ARGS_CHECK(argc, 3);
-    int fdr = open(argv[1], O_RDONLY); //1号管道读端
-    int fdw = open(argv[2], O_WRONLY); //2号管道写端
-    printf("I am chat1 fdr=%d, fdw=%d\n", fdr, fdw);
+    int fdw = open(argv[1], O_WRONLY); //1号管道写端
+    int fdr = open(argv[2], O_RDONLY); //2号管道读端
+    printf("I am chat2 fdr=%d, fdw=%d\n", fdr, fdw);
     char buf[128] = {0};
     fd_set rdset;
     while (1) {
@@ -17,19 +17,26 @@ int main(int argc, char **argv)
         if (ret > 0) { //返回文件描述符已改变个数
             if (FD_ISSET(STDIN_FILENO, &rdset)) {
                 bzero(buf, sizeof buf);
-                read(STDIN_FILENO, buf, sizeof buf);
+                ret = read(STDIN_FILENO, buf, sizeof buf);
+                // Ctrl+D
+                if (0 == ret) {
+                    printf("主动断开连接\n");
+                    break;
+                }
                 write(fdw, buf, strlen(buf) - 1); // 减去你输入的\n
             }
             if (FD_ISSET(fdr, &rdset)) {
                 bzero(buf, sizeof buf);
                 ret = read(fdr, buf, sizeof buf);
-                if (0 == ret){ // 退出机制，防止对端退出时疯狂打印
-                    printf("byebye!\n");
+                if (0 == ret) { // 退出机制，防止对端退出时疯狂打印
+                    printf("对端断开连接\n");
                     break;
                 }
                 printf("gets=%s\n", buf);
             }
         }
     }
+    close(fdr);
+    close(fdw);
     return 0;
 }
