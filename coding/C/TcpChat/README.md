@@ -51,9 +51,9 @@
   while (1){
     readyn = epoll_wait(evs,...);
     for loop:
-        监听socketfd
-        监听stdin
-        监听peerfd
+        if (evs[i].data.fd == socketfd) { accept ...}
+        if (evs[i].data.fd == stdin)
+        if (evs[i].data.fd == peerfd)
   }
   ```
 

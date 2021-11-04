@@ -45,12 +45,8 @@ int SocketIO::readLine(char *buff, int maxLen) // 一行最大值maxLen
     int total = 0;
     while (left > 0) {
         int ret = ::recv(_fd, p, left, MSG_PEEK);
-        if (-1 == ret && errno == EINTR) {
-            continue;
-        }
         if (-1 == ret) {
             perror("recv msg_peek");
-            break;
         }
         // 查找'\n'
         for (int i = 0; i < ret; ++i) {

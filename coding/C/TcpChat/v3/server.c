@@ -1,6 +1,6 @@
 #include "head.h"
 
-#define MAXCLIENT 2
+#define MAXCLIENT 2048
 
 // socket+bind+listen
 int tcpInit(int *sfd, char *ip, unsigned short port)
@@ -48,17 +48,20 @@ int main(int argc, char **argv)
     ret = epoll_ctl(epfd, EPOLL_CTL_ADD, socketfd, &event);
     ERROR_CHECK(ret, -1, "epoll_ctl");
     char buf[1024] = {0};
-    // evs用来从内核得到事件的集合
+    // epoll_wait会用evs来存储就绪事件
     struct epoll_event *evs = (struct epoll_event *)calloc(MAXCLIENT, sizeof(struct epoll_event));
     while (1) {
         int readyn = epoll_wait(epfd, evs, MAXCLIENT, -1);
         for (int i = 0; i < readyn; ++i) {
-            if (evs[i].data.fd == socketfd) {
-                peerfd = accept(socketfd, NULL, NULL);
+            if (evs[i].events & EPOLLIN && evs[i].data.fd == socketfd) {
+                // 触发读事件 最好用 按位与 不用等号判断
+                // 当然这里只注册了读事件，因此省略不写也没问题
+                peerfd = accept(socketfd, NULL, NULL); // TCPConnection(peerfd);
                 ERROR_CHECK(peerfd, -1, "accept");
                 event.data.fd = peerfd; // 注册peerfd
                 ret = epoll_ctl(epfd, EPOLL_CTL_ADD, peerfd, &event);
                 ERROR_CHECK(ret, -1, "epoll_ctl");
+                // onConnection(); 新连接到来时 回调函数
                 printf("a client connected\n");
             }
             if (evs[i].data.fd == STDIN_FILENO) {
@@ -69,6 +72,7 @@ int main(int argc, char **argv)
                     goto end;
                 }
                 send(peerfd, buf, strlen(buf) - 1, 0);
+                // onMessage(); 
             }
             if (evs[i].data.fd == peerfd) {
                 bzero(buf, sizeof buf);
@@ -76,6 +80,7 @@ int main(int argc, char **argv)
                 if (0 == ret) {
                     // 防止疯狂打印
                     printf("a client disconnected\n");
+                    // onClose();
                     // 将peerfd从event中解除注册
                     ret = epoll_ctl(epfd, EPOLL_CTL_DEL, peerfd, &event);
                     ERROR_CHECK(ret, -1, "epoll_ctl");

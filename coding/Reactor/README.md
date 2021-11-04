@@ -24,10 +24,60 @@
 ---
 
 ## Reactor封装
-1. InetAddress类 -- 
-2. Socket类
-3. SocketIO类
-4. Acceptor类
-5. TCPConnect类
-6. EventLoop类
+1. InetAddress类 -- 负责把`ip`和`por`t写入`struct sockaddr`
+2. Socket类      -- 负责托管套接字描述符 （创建+销毁）
+3. SocketIO类    -- 负责发送和接收数据 `read+write`
+4. Acceptor类    -- `bind+listen+accept`
+5. TCPConnect类  -- 外层接口
+6. EventLoop类   -- `epoll`事件循环，注册、监听、删除
 7. TCPServer类
+
+
+### v1
+![](https://gitee.com/snow-tyan/learn-cpp/raw/master/Figure/Reactor-v1.png)
+只有前五类，调用方式
+```c++
+Acceptor acceptor(ip, port); // socket
+acceptor.ready(); // bind + listen
+TCPConnection tcp(acceptor.accept()); // accept产生peerfd
+tcp.send(string);
+cout << tcp.recv() << endl;
+```
+
+
+### v2
+![](https://gitee.com/snow-tyan/learn-cpp/raw/master/Figure/Reactor-v2.png)
+加入`EventLoop`类（即`epoll`）  
+
+网络编程时涉及三个半事件：（事件处理器）
+  + 新连接到来时  回调函数`onConnection()`;
+  + 消息到达时    回调函数`onMessage()`;  // 业务逻辑处理`encode compute decode`
+  + 连接关闭时    回调函数`onClose()`;
+  + 消息发送完成时
+
+这些事件每个连接(`peerfd`)都有，因此需要扩充到`TCPconnection`  
+
+```c++
+Acceptor acceptor(ip, port);
+acceptor.ready();
+EventLoop event(acceptor);
+event.setConnectionCallback(onConnection);
+event.setMessageCallback(onMessage);
+event.setCloseCallback(onClose);
+event.loop();
+```
+
+
+### v3
+把`Acceptor`和`EventLoop`组合到一起，封装成`TCPServer`
+```c++
+TCPServer server(ip, port);
+server.setConnectionCallback(..);
+//setMessage
+//setClose
+server.start();
+```
+
+加入线程池（基于对象的线程池）  
+把业务逻辑处理交给子线去完成 -- 涉及计算线程和IO线程之间的通信  
+`eventfd`

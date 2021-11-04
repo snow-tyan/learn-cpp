@@ -60,7 +60,7 @@ int main(int argc, char **argv)
     while (1) {
         int readyn = epoll_wait(epfd, evs, MAXCLIENT, -1);
         for (int i = 0; i < readyn; ++i) {
-            if (evs[i].data.fd == socketfd) {
+            if (evs[i].events & EPOLLIN && evs[i].data.fd == socketfd) {
                 peerfd = accept(socketfd, NULL, NULL);
                 ERROR_CHECK(peerfd, -1, "accept");
                 ret = setNonblock(peerfd); // 设置非阻塞
@@ -72,7 +72,7 @@ int main(int argc, char **argv)
                 ERROR_CHECK(ret, -1, "epoll_ctl");
                 printf("a client connected\n");
             }
-            if (evs[i].events == EPOLLIN && evs[i].data.fd == STDIN_FILENO) {
+            if (evs[i].events & EPOLLIN && evs[i].data.fd == STDIN_FILENO) {
                 bzero(buf, sizeof buf);
                 ret = read(STDIN_FILENO, buf, sizeof buf);
                 if (0 == ret) {
@@ -81,7 +81,7 @@ int main(int argc, char **argv)
                 }
                 send(peerfd, buf, strlen(buf) - 1, 0);
             }
-            if (evs[i].data.fd == peerfd) {
+            if (evs[i].events & EPOLLIN && evs[i].data.fd == peerfd) {
                 while (1) {
                     bzero(buf, sizeof buf);
                     ret = recv(peerfd, buf, sizeof buf, 0);
