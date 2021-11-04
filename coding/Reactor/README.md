@@ -24,7 +24,7 @@
 ---
 
 ## Reactor封装
-1. InetAddress类 -- 负责把`ip`和`por`t写入`struct sockaddr`
+1. InetAddress类 -- 负责把`ip`和`port`写入`struct sockaddr`
 2. Socket类      -- 负责托管套接字描述符 （创建+销毁）
 3. SocketIO类    -- 负责发送和接收数据 `read+write`
 4. Acceptor类    -- `bind+listen+accept`
@@ -79,5 +79,9 @@ server.start();
 ```
 
 加入线程池（基于对象的线程池）  
-把业务逻辑处理交给子线去完成 -- 涉及计算线程和IO线程之间的通信  
-`eventfd`
+把业务逻辑处理交给子线程去完成 -- 子线程完成任务后**消息发送**交给IO线程  
+                          -- 涉及计算线程和IO线程之间的通信  `eventfd`  
+
+
+### Reactor模型序列图
+![](https://gitee.com/snow-tyan/learn-cpp/raw/master/Figure/Reactor-timeseq.png)
