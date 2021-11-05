@@ -68,7 +68,7 @@ event.loop();
 ```
 
 
-### v3
+### v2.1
 把`Acceptor`和`EventLoop`组合到一起，封装成`TCPServer`
 ```c++
 TCPServer server(ip, port);
@@ -78,6 +78,8 @@ server.setConnectionCallback(..);
 server.start();
 ```
 
+
+### v3
 加入线程池（基于对象的线程池）  
 把业务逻辑处理交给子线程去完成 -- 子线程完成任务后**消息发送**交给IO线程  
                           -- 涉及计算线程和IO线程之间的通信  `eventfd`  
