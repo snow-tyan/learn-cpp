@@ -9,7 +9,7 @@ namespace tls
 {
 //只能修饰POD类型（内置+C方式结构体）
 __thread const char *threadName = "AnonymousThread";
-} // namespace tls
+} // end of namespace tls
 
 struct ThreadData {
     ThreadData(string name, ThreadCallback &&cb)

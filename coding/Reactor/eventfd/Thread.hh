@@ -7,12 +7,12 @@ using std::string;
 
 namespace wd
 {
-    
+
 namespace tls
 {
 extern __thread const char *threadName; // 全局变量在不同的地方重复定义，加extern表声明
 
-} // namespace tls
+} // end of namespace tls
 
 using ThreadCallback = std::function<void()>;
 

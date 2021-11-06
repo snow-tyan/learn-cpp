@@ -1,9 +1,9 @@
-#include <unistd.h>
-#include <time.h>
-#include <stdlib.h>
 #include "Thread.hh"
 #include <iostream>
 #include <memory>
+#include <stdlib.h>
+#include <time.h>
+#include <unistd.h>
 using namespace std;
 using namespace wd;
 
@@ -13,10 +13,9 @@ public:
     void run()
     {
         ::srand(::clock());
-        while (1)
-        {
+        while (1) {
             int number = ::rand() % 100;
-            cout << current_thread::threadName << " is running:"<< endl;
+            cout << tls::threadName << " is running:" << endl;
             cout << "Task::run, number = " << number << endl;
             ::sleep(1);
         }
@@ -26,8 +25,7 @@ public:
 void run2()
 {
     ::srand(::clock());
-    while (1)
-    {
+    while (1) {
         int number = ::rand() % 100;
 
         cout << "run2, number = " << number << endl;

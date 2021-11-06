@@ -1,17 +1,18 @@
 #include "TCPConnection.hh"
-
+#include "EventLoop.hh"
 #include <sstream>
 using std::ostringstream;
 
 namespace wd
 {
 
-TCPConnection::TCPConnection(int fd)
+TCPConnection::TCPConnection(int fd, EventLoop *event)
     : _sock(Socket(fd)),
       _sockio(SocketIO(fd)),
       _localAddr(getLocalAddr(fd)),
       _peerAddr(getPeerAddr(fd)),
-      _isShutdownWrite(false) {}
+      _isShutdownWrite(false),
+      _event(event) {}
 
 TCPConnection::~TCPConnection()
 {
@@ -39,6 +40,13 @@ string TCPConnection::recv()
     _sockio.readLine(buff, sizeof(buff));
     // _sockio.readn(buff, sizeof buff);
     return string(buff);
+}
+
+void TCPConnection::sendInLoop(const string &msg)
+{
+    if (_event) {
+        _event->runInLoop(std::bind(&TCPConnection::send, this, msg));
+    }
 }
 void TCPConnection::send(const string &msg)
 {

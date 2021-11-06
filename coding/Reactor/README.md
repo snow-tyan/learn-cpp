@@ -80,6 +80,7 @@ server.start();
 
 
 ### v3
+![](https://gitee.com/snow-tyan/learn-cpp/raw/master/Figure/Reactor-v3.png)
 加入线程池（基于对象的线程池）  
 把业务逻辑处理交给子线程去完成 -- 子线程完成任务后**消息发送**交给IO线程  
                           -- 涉及计算线程和IO线程之间的通信  `eventfd`  

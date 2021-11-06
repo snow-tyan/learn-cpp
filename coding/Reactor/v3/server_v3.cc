@@ -26,8 +26,8 @@ public:
         //由线程池的线程(计算线程)完成数据的发送,在设计上来说，是不合理的
         //数据发送的工作要交还给IO线程(Reactor所在的线程)完成
         //将send的函数的执行延迟到IO线程取操作，交给EventLoop中的loop执行。
-        _conn->send(response); 
-        //_conn->sendInLoop(response);
+        // _conn->send(response);
+        _conn->sendInLoop(response);
     }
 
 private:
@@ -40,7 +40,7 @@ private:
 void onConnection(const TCPConnectionPtr &conn)
 {
     cout << conn->toString() << " has connected!" << endl;
-    conn->send("welcome to server.");
+    conn->sendInLoop("welcome to server.");
 }
 
 void onMessage(const TCPConnectionPtr &conn)

@@ -14,6 +14,7 @@ using std::string;
 
 namespace wd
 {
+class EventLoop;
 class TCPConnection;
 using TCPConnectionPtr = shared_ptr<TCPConnection>;
 using TCPCallback = function<void(const TCPConnectionPtr &)>;
@@ -23,12 +24,12 @@ class TCPConnection
       public enable_shared_from_this<TCPConnection>
 {
 public:
-    TCPConnection(int); // fd
+    TCPConnection(int, EventLoop *); // fd, EventLoop（IO线程）
     ~TCPConnection();
 
     string recv();
-    void send(const string &);
-    string toString() const; // 打印 本机ip port -> 对端ip port
+    void sendInLoop(const string &); // 交给IO线程_eventloop
+    string toString() const;         // 打印 本机ip port -> 对端ip port
     void shutdown();
 
     // 回调函数 这里用的是const左值引用，因为这里的cb是EventLoop转交过来的
@@ -46,6 +47,8 @@ private:
     InetAddress getLocalAddr(int);
     InetAddress getPeerAddr(int);
 
+    void send(const string &); // 本计算线程内不做发送，交给IO线程去做
+
 private:
     Socket _sock;
     SocketIO _sockio;
@@ -58,6 +61,7 @@ private:
     TCPCallback _onConnection;
     TCPCallback _onMessage;
     TCPCallback _onClose;
+    EventLoop *_event;
 };
 
 } // end of namespace wd

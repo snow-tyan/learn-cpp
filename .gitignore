@@ -33,3 +33,7 @@
 
 # test
 *.txt
+
+# .vscode
+.vscode/*
+.vscode
