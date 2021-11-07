@@ -67,6 +67,23 @@ void onClose(const TCPConnectionPtr &conn)
     cout << conn->toString() << " has disconnected!" << endl;
 }
 
+class EchoServer
+{
+public:
+    EchoServer(const string &ip, unsigned short port)
+        : _threadpool(4, 10), _tcpserver(ip, port) {}
+
+    void start(); // 这边有个小bug暂未解决 类内部设置server的回调函数，即使用bind绑定this也会报错
+
+    void onConnection(const TCPConnectionPtr &conn);
+    void onMessage(const TCPConnectionPtr &conn);
+    void onClose(const TCPConnectionPtr &conn);
+
+private:
+    ThreadPool _threadpool;
+    TCPServer _tcpserver;
+};
+
 int main(void)
 {
     ThreadPool threadpool(4, 10);
@@ -76,8 +93,8 @@ int main(void)
     TCPServer server("172.25.40.81", 8888);
     server.setConnectionCallback(onConnection);
     server.setMessageCallback(onMessage);
+    // server.setCloseCallback(std::bind(&T::onClose, T())); // error
     server.setCloseCallback(onClose);
-
     server.start();
     return 0;
 }
